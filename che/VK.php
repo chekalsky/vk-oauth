@@ -113,6 +113,18 @@ class VK {
     public function setApiVersion($apiVersion) {
         $this->apiVersion = $apiVersion;
     }
+
+    /**
+     * Set forceHttps value.
+     * 
+     * Use boolean true to get all respones in https-compatible form (e.g. image urls)
+     *
+     * @param boolean $forceHttps
+     * @return void
+     */
+    public function setForceHttps($forceHttps) {
+        $this->forceHttps = $forceHttps;
+    }
     
     /**
     * Magic call of API function
@@ -123,7 +135,7 @@ class VK {
         $method = str_replace('_', '.', $name);
         $parameters = (is_array($arguments[0])) ? $arguments[0] : array();
         
-        return $this->get($method, $parameters);
+        return $this->post($method, $parameters);
     }
     
     /**
