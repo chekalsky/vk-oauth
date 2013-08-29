@@ -1,0 +1,29 @@
+{
+    "name": "chekalskiy/vk-oauth",
+    "version": "0.5",
+    "license": "MIT",
+    "description": "VK-OAuth is a powerfull PHP library for the VK OAuth API.",
+    "keywords": ["vk", "api", "oauth", "vk.com"],
+    "homepage": "https://github.com/chekalskiy/vk-oauth",
+    "authors": [
+        {
+            "name": "Ilya Chekalskiy",
+            "email": "ilya@chekalskiy.ru",
+            "homepage": "http://chekalskiy.ru"
+        }
+    ],
+    "support": {
+        "email": "ilya@chekalskiy.ru",
+        "issues": "https://github.com/chekalskiy/vk-oauthissues",
+        "source": "https://github.com/chekalskiy/vk-oauth"
+    },
+    "require": {
+        "php": ">=5.3.3",
+        "ext-curl": "*",
+    },
+    "autoload": {
+        "psr-0": {
+            "che\\": "",
+        }
+    }
+}
