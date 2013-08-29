@@ -14,12 +14,12 @@
     ],
     "support": {
         "email": "ilya@chekalskiy.ru",
-        "issues": "https://github.com/chekalskiy/vk-oauthissues",
+        "issues": "https://github.com/chekalskiy/vk-oauth/issues",
         "source": "https://github.com/chekalskiy/vk-oauth"
     },
     "require": {
         "php": ">=5.3.3",
-        "ext-curl": "*",
+        "ext-curl": "*"
     },
     "autoload": {
         "psr-0": {
