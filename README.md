@@ -26,6 +26,16 @@ $wall = $vk->wall_get(array(
 If you want to get endless token use the `offline` scope parameter:  
 `$vk->getAuthenticationUrl($currentUrl, 'wall,offline');`
 
+## Installation ##
+You can install `vk-oauth` by using [Composer](http://getcomposer.org/)
+```
+"require": {
+    "chekalskiy/vk-oauth": "dev-master"
+}
+```
+  
+or by using simple `include`.
+
 ## Support ##
 email: <ilya@chekaslkiy.ru>  
 vk: [chekalskiy](https://vk.com/chekalskiy)  
