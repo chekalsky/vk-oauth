@@ -287,11 +287,11 @@ class VK {
         curl_close($ch);
 
         // Handling API errors
-        if ($http_code === 200 && json_last_error() !== \JSON_ERROR_NONE)
-            throw new VKException('JSON decoding error', json_last_error());
         if ($http_code !== 200)
             VKException::raise(array('http' => true, 'code' => $http_code));
-        if (isset($json_decode['result']['error']))
+        if (json_last_error() !== \JSON_ERROR_NONE)
+            throw new VKException('JSON decoding error', json_last_error());
+        if (is_array($json_decode) && isset($json_decode['error']))
             VKException::raise(array('result' => $json_decode, 'code' => $http_code));
 
         return $json_decode;
