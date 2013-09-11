@@ -16,6 +16,8 @@ class VK {
     protected $clientId       = null;
     protected $clientSecret   = null;
     protected $accessToken    = null;
+    protected $curlConnectionTimeout = 30;
+    protected $curlRequestTimeout = 30;
 
 
     public function __construct($clientId, $clientSecret, $accessToken = null) {
@@ -125,6 +127,26 @@ class VK {
     public function setForceHttps($forceHttps) {
         $this->forceHttps = $forceHttps;
     }
+
+    /**
+     * Set connection timeout value.
+     *
+     * @param int $timeout in seconds
+     * @return void
+     */
+    public function setConnectionTimeout($timeout) {
+        $this->curlConnectionTimeout = (int) $timeout;
+    }
+
+    /**
+     * Set request timeout value.
+     *
+     * @param int $timeout in seconds
+     * @return void
+     */
+    public function setRequestTimeout($timeout) {
+        $this->curlRequestTimeout = (int) $timeout;
+    }
     
     /**
     * Magic call of API function
@@ -229,7 +251,9 @@ class VK {
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_SSL_VERIFYHOST => 2,
-            CURLOPT_CUSTOMREQUEST  => $http_method
+            CURLOPT_CUSTOMREQUEST  => $http_method,
+            CURLOPT_CONNECTTIMEOUT => $this->curlConnectionTimeout,
+            CURLOPT_TIMEOUT        => $this->curlRequestTimeout
         );
 
         switch ($http_method) {
