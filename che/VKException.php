@@ -8,48 +8,30 @@ class VKException extends \Exception {
     const REQUIRE_PARAMS_AS_ARRAY = 4;
 
     public static function raise($response) {
-        if (isset($response['result']['error_description'])) {
-            $message = $response['result']['error_description'];
-            $code    = $response['code'];
-        } elseif (isset($response['result']['error']['error_msg'])) {
-            $message = $response['result']['error']['request_params'][1]['value'] . ': ' .$response['result']['error']['error_msg'];
-            $code    = $response['result']['error']['error_code'];
+        if (!isset($response['result']) && isset($response['code']) && $response['http'] === true) {
+            throw new VKServerException("VK API Serverside error", $response['code']);
+        } elseif (isset($response['result']['error'])) {
+            $error = $response['result']['error'];
+
+            $method_name = 'method.unknown';
+            if (isset($error['request_params'])) {
+                foreach ($error['request_params'] as $param) {
+                    if ($param['key'] == 'method') {
+                        $method_name = $param['value'];
+                        break;
+                    }
+                }
+            }
+
+            $message = $method_name . ': ' .$error['error_msg'];
+            $code    = $error['error_code'];
         } else {
             $message = 'Unknown error';
             $code    = 0;
         }
-        
-        switch($code) {
-          case 400:
-            throw new VKBadRequestException($message, $code);
-          case 401:
-            throw new VKNotAuthorizedException($message, $code);
-          case 403:
-            throw new VKForbiddenException($message, $code);
-          case 404:
-            throw new VKNotFoundException($message, $code);
-          case 406:
-            throw new VKNotAcceptableException($message, $code);
-          case 420:
-            throw new VKEnhanceYourCalmException($message, $code);
-          case 500:
-            throw new VKInternalServerException($message, $code);
-          case 502:
-            throw new VKBadGatewayException($message, $code);
-          case 503:
-            throw new VKServiceUnavailableException($message, $code);
-          default:
-            throw new VKException($message, $code);
-        }
+
+        throw new VKException($message, $code);
     }
 }
 
-class VKBadRequestException         extends VKException {}
-class VKNotAuthorizedException      extends VKException {}
-class VKForbiddenException          extends VKException {}
-class VKNotFoundException           extends VKException {}
-class VKNotAcceptableException      extends VKException {}
-class VKEnhanceYourCalmException    extends VKException {}
-class VKInternalServerException     extends VKException {}
-class VKBadGatewayException         extends VKException {}
-class VKServiceUnavailableException extends VKException {}
+class VKServerException extends VKException {}
