@@ -37,6 +37,6 @@ You can install `vk-oauth` by using [Composer](http://getcomposer.org/)
 or by using simple `include`.
 
 ## Support ##
-email: <ilya@chekaslkiy.ru>  
+email: <ilya@chekalskiy.ru>  
 vk: [chekalskiy](https://vk.com/chekalskiy)  
 twitter: [@i_compman](https://twitter.com/i_compman)
