@@ -14,7 +14,7 @@ class VKException extends \Exception {
             $error = $response['result']['error'];
 
             $method_name = 'method.unknown';
-            if (isset($error['request_params'])) {
+            if (is_array($error) && isset($error['request_params'])) {
                 foreach ($error['request_params'] as $param) {
                     if ($param['key'] == 'method') {
                         $method_name = $param['value'];
@@ -23,8 +23,11 @@ class VKException extends \Exception {
                 }
             }
 
-            $message = $method_name . ': ' .$error['error_msg'];
-            $code    = $error['error_code'];
+            $error_msg = (isset($error['error_msg'])) ? $error['error_msg'] : (is_string($error)) ? $error : 'Unknown error';
+            if (isset($response['result']['error_description']))
+                $error_msg .= ' | ' . $response['result']['error_description'];
+            $message = $method_name . ': ' . $error_msg;
+            $code    = (isset($error['error_code'])) ? intval($error['error_code']) : 0;
         } else {
             $message = 'Unknown error';
             $code    = 0;

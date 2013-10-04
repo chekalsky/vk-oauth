@@ -4,7 +4,7 @@
 
     $vk = new \che\VK('{APP_ID}', '{SECRET}');
 
-    $currentUrl = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    $currentUrl = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
 
     try {
         if (!isset($_GET['code'])) {

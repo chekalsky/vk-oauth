@@ -11,7 +11,7 @@ class VK {
     protected $apiUrl         = 'https://api.vk.com/method/';
     protected $authorizeUrl   = 'https://oauth.vk.com/authorize';
     protected $accessTokenUrl = 'https://oauth.vk.com/access_token';
-    protected $apiVersion     = '5.0';
+    protected $apiVersion     = '5.2';
     protected $forceHttps     = false;
     protected $clientId       = null;
     protected $clientSecret   = null;
@@ -287,12 +287,12 @@ class VK {
         curl_close($ch);
 
         // Handling API errors
+        if (is_array($json_decode) && isset($json_decode['error']))
+            VKException::raise(array('result' => $json_decode, 'code' => $http_code));
         if ($http_code !== 200)
             VKException::raise(array('http' => true, 'code' => $http_code));
         if (json_last_error() !== \JSON_ERROR_NONE)
             throw new VKException('JSON decoding error', json_last_error());
-        if (is_array($json_decode) && isset($json_decode['error']))
-            VKException::raise(array('result' => $json_decode, 'code' => $http_code));
 
         return $json_decode;
     }
