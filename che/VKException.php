@@ -23,9 +23,17 @@ class VKException extends \Exception {
                 }
             }
 
-            $error_msg = (isset($error['error_msg'])) ? $error['error_msg'] : (is_string($error)) ? $error : 'Unknown error';
+            if (isset($error['error_msg'])) {
+                $error_msg = $error['error_msg'];
+            } elseif (is_string($error)) {
+                $error_msg = trim($error);
+            } else
+                $error_msg = 'Unknown error';
+
             if (isset($response['result']['error_description']))
                 $error_msg .= ' | ' . $response['result']['error_description'];
+            if (isset($error['redirect_uri']))
+                $error_msg .= ' | ' . $error['redirect_uri'];
             $message = $method_name . ': ' . $error_msg;
             $code    = (isset($error['error_code'])) ? intval($error['error_code']) : 0;
         } else {
