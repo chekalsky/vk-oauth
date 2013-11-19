@@ -34,6 +34,11 @@ class VKException extends \Exception {
                 $error_msg .= ' | ' . $response['result']['error_description'];
             if (isset($error['redirect_uri']))
                 $error_msg .= ' | ' . $error['redirect_uri'];
+
+            if (isset($error['captcha_sid'])) {
+                $error_msg .= ' | img: '.$error['captcha_img'].' | sid: '.$error['captcha_sid'];
+            }
+
             $message = $method_name . ': ' . $error_msg;
             $code    = (isset($error['error_code'])) ? intval($error['error_code']) : 0;
         } else {
