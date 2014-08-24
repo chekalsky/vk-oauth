@@ -65,7 +65,7 @@ class VK {
     /**
     * Client Credentials Flow authorization
     * 
-    * @return string
+    * @return array
     */
     public function getServerAccessToken() {
         $response = $this->getGrantAccessToken(array('grant_type' => 'client_credentials'));
