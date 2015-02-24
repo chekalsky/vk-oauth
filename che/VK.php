@@ -3,7 +3,7 @@ namespace che;
 
 /**
 * A powerfull PHP library for the VK OAuth API (vk.com social network).
-* 
+*
 * @link https://github.com/chekalskiy/vk-oauth
 * @author Ilya Chekalskiy <ilya@chekalskiy.ru>
 */
@@ -53,7 +53,7 @@ class VK {
 
     /**
     * Authorization Code Flow
-    * 
+    *
     * @return array
     */
     public function getAccessToken($code, $redirect_uri) {
@@ -64,7 +64,7 @@ class VK {
 
     /**
     * Client Credentials Flow authorization
-    * 
+    *
     * @return string
     */
     public function getServerAccessToken() {
@@ -86,13 +86,13 @@ class VK {
                 if (!isset($parameters['code']) || empty($parameters['code']))
                     throw new VKException('Empty code parameter.', VKException::CODE_NOT_DEFINED);
         }
-        
+
         $parameters['client_id'] = $this->clientId;
         $parameters['client_secret'] = $this->clientSecret;
         $parameters['v'] = $this->apiVersion;
 
         $response = $this->executeRequest($this->accessTokenUrl, $parameters, 'POST');
-        
+
         return $response;
     }
 
@@ -118,7 +118,7 @@ class VK {
 
     /**
      * Set forceHttps value.
-     * 
+     *
      * Use boolean true to get all respones in https-compatible form (e.g. image urls)
      *
      * @param boolean $forceHttps
@@ -147,22 +147,22 @@ class VK {
     public function setRequestTimeout($timeout) {
         $this->curlRequestTimeout = (int) $timeout;
     }
-    
+
     /**
     * Magic call of API function
-    *    
+    *
     * @return void
     */
     public function __call($name, $arguments) {
         $method = str_replace('_', '.', $name);
         $parameters = (is_array($arguments[0])) ? $arguments[0] : array();
-        
+
         return $this->post($method, $parameters);
     }
-    
+
     /**
     * GET-call of VK API
-    * 
+    *
     * @param string $method  Method name, e.g. "wall.get"
     * @param array $parameters  Request parameters
     * @return array
@@ -178,13 +178,13 @@ class VK {
 
         $url = $this->getUrl($method);
         $result = $this->fetch($url, $parameters, "GET");
-        
-        return $result['response'];
+
+        return (isset($result['response'])) ? $result['response'] : $result;
     }
 
     /**
     * POST-call of VK API
-    * 
+    *
     * @param string $method  Method name, e.g. "users.get"
     * @param array $parameters  Request parameters
     * @return array
@@ -201,12 +201,12 @@ class VK {
         $url = $this->getUrl($method);
         $result = $this->fetch($url, $parameters, "POST");
 
-        return $result['response'];
+        return (isset($result['response'])) ? $result['response'] : $result;
     }
-    
+
     /**
     * Get full URL for API request
-    * 
+    *
     * @param string $method Method name
     * @return string
     */
@@ -274,11 +274,11 @@ class VK {
 
         $ch = curl_init();
         curl_setopt_array($ch, $curl_options);
-        
+
         $result = curl_exec($ch);
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
-        
+
         if ($curl_error = curl_error($ch)) {
             throw new VKException($curl_error, VKException::CURL_ERROR);
         } else {
