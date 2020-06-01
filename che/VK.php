@@ -11,7 +11,7 @@ class VK {
     protected $apiUrl         = 'https://api.vk.com/method/';
     protected $authorizeUrl   = 'https://oauth.vk.com/authorize';
     protected $accessTokenUrl = 'https://oauth.vk.com/access_token';
-    protected $apiVersion     = '5.2';
+    protected $apiVersion     = '5.107';
     protected $forceHttps     = false;
     protected $clientId       = null;
     protected $clientSecret   = null;
